@@ -1,8 +1,12 @@
-MySQL.hostname: localhost
-MySQL.port: 3306
-MySQL.database: veritabaniadi
-MySQL.username: kullaniciadi
-MySQL.password: sifre
-Reklam_Link: http://adf.ly
-jointime: 1
-kicktime: 60
+MySQL:
+  hostname: localhost
+  port: 3306
+  database: veritabaniadi
+  username: kullaniciadi
+  password: sifre
+Reklam:  
+  Reklam_Link: http://adf.ly
+time:
+  jointime: 1
+  kicktime: 60
+tiklayanlar:

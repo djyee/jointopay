@@ -5,6 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -44,7 +45,7 @@ getLogger().info("Join To Pay V1.0 Enable!");
 
   public void onDisable()
   {
-		 saveConfig();
+	
 		 getLogger().info("Join To Pay V1.0 Disable!");
   }
  
@@ -79,11 +80,11 @@ getLogger().info("Join To Pay V1.0 Enable!");
   String utf8 = "?useUnicode=true&characterEncoding=UTF-8";
   
 int s = 20;
-int sxc = getConfig().getInt("jointime");
+int sxc = getConfig().getInt("time.jointime");
 
 int xx = s*sxc;
 
-int atilma1 = s * getConfig().getInt("kicktime");
+int atilma1 = s * getConfig().getInt("time.kicktime");
 int atilma = atilma1 + xx;
 
 
@@ -96,8 +97,12 @@ int atilma = atilma1 + xx;
     DatabaseMetaData metadata = connection.getMetaData();
     final ResultSet resultSet;
     resultSet = metadata.getColumns(null, null, "jointopay", p3.getAddress().getAddress().getHostAddress().replace(".", ""));
-    
-   
+       
+        if(getConfig().getStringList("tiklayanlar").contains(p3.getAddress().getAddress().getHostAddress())){
+        	
+        }else{
+       
+  
     getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 	public void run() {
         Player p3 = event.getPlayer();
@@ -136,7 +141,7 @@ int atilma = atilma1 + xx;
 		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=");
 		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.BLUE + " Hoþgeldin " + ChatColor.YELLOW + p3.getName());
 		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.LIGHT_PURPLE + " Sunucuda Oynaya Bilmek için Aþaðidaki linke tikla Reklami Geç");
-		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.YELLOW + " Link: " + ChatColor.AQUA + getConfig().getString("Reklam_Link") );
+		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.YELLOW + " Link: " + ChatColor.AQUA + getConfig().getString("Reklam.Reklam_Link") );
 		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=");
 		   	 p3.sendMessage("    ");
 			 p3.sendMessage("    ");
@@ -163,7 +168,11 @@ int atilma = atilma1 + xx;
 		try {
 			if(resultSet.next()){
 			}else{
+				 if(getConfig().getStringList("tiklayanlar").contains(p3.getAddress().getAddress().getHostAddress())){
+				    	
+				    }else{
 p3.kickPlayer(ChatColor.RED + "Belirlenen Reklam Tiklama Suresini Aþtiniz!");
+}
 					connection.close();
 				}
 		} catch (SQLException e) {
@@ -175,11 +184,13 @@ p3.kickPlayer(ChatColor.RED + "Belirlenen Reklam Tiklama Suresini Aþtiniz!");
    
     , atilma+ 'L');
        }
-    	
+        }
   
     
     
    
+  
+ 
   }
 @EventHandler(priority = EventPriority.NORMAL)
 public void hasar(final EntityDamageEvent event) {
@@ -233,7 +244,13 @@ Player p3 = event.getPlayer();
         	 try {
      			if(resultSet.next()){
      		        p3.sendMessage(ChatColor.GRAY + ">>>>>" + ChatColor.GOLD + "Reklama Baþariyla Tikladiniz Artik OynayaBilirsiniz!" + ChatColor.GRAY + "<<<<<");
-     		    
+     		       ArrayList<String> d4 = (ArrayList<String>) this.getConfig().getStringList("tiklayanlar");
+     		 	   d4.add("#####################"); 
+     		       d4.add(p3.getPlayerListName()); 
+     		       d4.add(p3.getAddress().getAddress().getHostAddress());
+     		       d4.add("#####################"); 
+     				 this.getConfig().set("tiklayanlar", d4);
+     				 saveConfig();
      		        pay.this.sohbet.put(p3, Boolean.FALSE);
     		 		
      		 	  connection.close();
@@ -266,7 +283,7 @@ Player p3 = event.getPlayer();
    		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=");
    		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.BLUE + " Hoþgeldin " + ChatColor.YELLOW + p3.getName());
    		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.LIGHT_PURPLE + " Sunucuda Oynaya Bilmek için Aþaðidaki linke tikla Reklami Geç");
-   		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.YELLOW + " Link: " + ChatColor.AQUA + getConfig().getString("Reklam_Link") );
+   		        p3.sendMessage(ChatColor.WHITE + "=" + ChatColor.YELLOW + " Link: " + ChatColor.AQUA + getConfig().getString("Reklam.Reklam_Link") );
    		        p3.sendMessage(ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=" + ChatColor.WHITE + "=" + ChatColor.DARK_RED + "=");
    		   	 p3.sendMessage("    ");
    			 p3.sendMessage("    ");
