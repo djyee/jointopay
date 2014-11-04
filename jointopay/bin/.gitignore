@@ -1,3 +1,4 @@
+/site
 /.classpath
 /.project
 /.settings
@@ -5,7 +6,3 @@
 /config.yml
 /net
 /plugin.yml
-/site
-/index.php
-/iptal.png
-/Basari.png

@@ -5,9 +5,11 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -31,18 +33,104 @@ public final class pay extends JavaPlugin
 {
   HashMap<Player, Boolean> sohbet = new HashMap<Player, Boolean>();
 
-
+ 
+	   
   public void onEnable()
   {
 	
-		
+	  this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+	      
+         
+		public void run()
+          {
+             
+              {
+            	  Calendar cal =Calendar.getInstance();
+                     	  cal.getTime();
+            	 
+            	  SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            	  String time = sdf.format(cal.getTime());
+            	  String[] times = time.split(":");
+            	   
+            	  int hour = Integer.parseInt(times[0]);
+            	  int minute = Integer.parseInt(times[1]);
+            	   
+            	  if (hour == 12 && minute == 00) {
+            		  ArrayList<String> d4 = (ArrayList<String>) getConfig().getStringList("tiklayanlar");
+             		 d4.clear(); 
+             			getConfig().set("tiklayanlar", d4);
+             				 saveConfig();
+                     	
+            	 	getLogger().info("[JoinToPay] Mysql Ve configdeki Kayitlar Otomatik olarak sifirlandi!");
+            	  
+				
+            	  
+            	 	try {
+            	 		Connection connection;
+            	 		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + "/"
+						        + database, username, password);
+            	 		Statement s4 = connection.createStatement();
+						s4.executeUpdate("DROP TABLE jointopay");
+						s4.executeUpdate("CREATE TABLE jointopay " +
+                   "(Kayitlar INTEGER not NULL, " +
+                   " PRIMARY KEY ( kayitlar ))");
+						  connection.close();
+					} catch (SQLException e) {						
+						e.printStackTrace();
+					}
+            	 
+            	 
+            	  }
+                
+                }
+            	  
+            	  
+              }
+          
+      }
+      , 0L, 800L);
+	 
+	  ///
+	
+				try {
+					Connection connection = DriverManager.getConnection("jdbc:mysql://" + hostname + "/"
+	            + database, username, password);
+	    DatabaseMetaData metadata = connection.getMetaData();
+	    ResultSet resultSet;
+	    resultSet = metadata.getColumns(null, null, "jointopay", null);
+	   
+					if(resultSet.next()){
+						  connection.close();
+					
+					}else{
+						 try {
+	 		Connection connection1;
+	 		connection1 = DriverManager.getConnection("jdbc:mysql://" + hostname + "/"
+			        + database, username, password);
+	 		Statement s4 = connection1.createStatement();
+
+			s4.executeUpdate("CREATE TABLE jointopay " +
+	                   "(Kayitlar INTEGER not NULL, " +
+	                   " PRIMARY KEY ( kayitlar ))");
+			  connection1.close();
+		} catch (SQLException e) {						
+			e.printStackTrace();
+		}
+						 connection.close();
+					}
+				} catch (SQLException e) {
+			
+					e.printStackTrace();
+				}
+	        	  
+	      
 	    getServer().getPluginManager().registerEvents(this, this);
 		  getConfig().options().copyDefaults(true);
 		    saveConfig();
 getLogger().info("Join To Pay V1.0 Enable!");
-
+	      
   }
-
+  
   public void onDisable()
   {
 	
