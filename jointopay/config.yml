@@ -3,7 +3,7 @@ MySQL:
   port: 3306
   database: veritabaniadi
   username: kullaniciadi
-  password: sifre
+  password: sifre    
 Reklam:  
   Reklam_Link: http://adf.ly
 time:
